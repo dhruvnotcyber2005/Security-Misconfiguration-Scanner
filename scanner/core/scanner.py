@@ -1,6 +1,4 @@
-"""
-Base scanner interface.
-"""
+# Base scanner interface.
 
 from abc import ABC, abstractmethod
 from scanner.core.target import Target
