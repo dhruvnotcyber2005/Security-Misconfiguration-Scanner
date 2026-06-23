@@ -11,7 +11,7 @@ class ScannerModule(ABC):
         pass
 
     @abstractmethod
-    def scan(self,target,method):
+    def scan(self,target:Target):
         """
         Execute the scan
         Returns the scan results
