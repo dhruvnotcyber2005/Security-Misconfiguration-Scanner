@@ -1,1 +1,1 @@
-# Security-Misconfiguration-Scanner
+# SentinelScan
