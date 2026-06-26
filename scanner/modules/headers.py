@@ -15,11 +15,23 @@ from scanner.utils.logger import logger
 class HeaderScanner(ScannerModule):
     """ Scans a target website for missing HTTP security headers """
 
-    REQUIRED_HEADERS = {
-        "Content-Security-Policy": "Implement a strong Content Security Policy.",
-        "Strict-Transport-Security": "Enable HTTP Strict Transport Security (HSTS).",
-        "X-Frame-Options": "Protect against clickjacking by setting X-Frame-Options.",
-        "X-Content-Type-Options": "Prevent MIME type sniffing by setting X-Content-Type-Options to 'nosniff'.",
+    REQUIRED_HEADERS={
+        "Content-Security-Policy": {
+            "severity":"Medium",
+            "recommendation":"Implement a strong Content Security Policy.",
+        },
+        "Strict-Transport-Security":{
+            "severity":"Medium",
+            "recommendation":"Enable HTTP Strict Transport Security (HSTS).",
+        },
+        "X-Frame-Options":{
+            "severity":"Medium",
+            "recommendation":"Protect against clickjacking by setting X-Frame-Options.",
+        },
+        "X-Content-Type-Options":{
+            "severity":"Medium",
+            "recommendation":"Prevent MIME type sniffing by setting X-Content-Type-Options to 'nosniff'.",
+        },
     }
 
     @property
@@ -42,7 +54,7 @@ class HeaderScanner(ScannerModule):
             findings.append(
                 Finding(
                     title="Header scan failed",
-                    severity="Info",
+                    severity="Informational",
                     description=str(error),
                     recommendation="Verify that the target URL is valid and reachable",
                 )
@@ -51,14 +63,14 @@ class HeaderScanner(ScannerModule):
         else:
             headers=response.headers
 
-            for header,recommendation in self.REQUIRED_HEADERS.items():
+            for header, details in self.REQUIRED_HEADERS.items():
                 if header not in headers:
                     findings.append(
                         Finding(
                             title=f"Missing: {header}",
-                            severity="Medium",
-                            description=f"{header} is missing",
-                            recommendation=recommendation,
+                            severity=details["severity"],
+                            description=f"{header} is missing.",
+                            recommendation=details["recommendation"],
                         )
                     )
 
